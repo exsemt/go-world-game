@@ -1,31 +1,35 @@
 package main
 
+import (
+	"github.com/exsemt/go-world-game/model"
+)
+
 func main() {}
 
 var gameWord Game
 
 // Game returns game world
 type Game struct {
-	Players []Player
+	Players []model.Player
 }
 
 func initGame() *Game {
-	corridor := NewRoom("коридор", "ничего интересного.", "")
+	corridor := model.NewRoom("коридор", "ничего интересного.", "")
 
-	kitchen := NewRoom("кухня", "кухня, ничего интересного.", "ты находишься на кухне")
-	kitchen.furnitures = []*Furniture{NewFurniture("стол", "на столе", []*Inventory{NewInventory("чай", false, false, false, "")})}
-	kitchen.tasks = []*Task{NewTask("собрать рюкзак"), NewTask("идти в универ")}
+	kitchen := model.NewRoom("кухня", "кухня, ничего интересного.", "ты находишься на кухне")
+	// kitchen.furnitures = []*model.Furniture{model.NewFurniture("стол", "на столе", []*model.Inventory{model.NewInventory("чай", false, false, false, "")})}
+	// kitchen.tasks = []*model.Task{model.NewTask("собрать рюкзак"), model.NewTask("идти в универ")}
 
-	myRoom := NewRoom("комната", "ты в своей комнате.", "")
-	myRoom.furnitures = []*Furniture{
-		NewFurniture("стол", "на столе:", []*Inventory{NewInventory("ключи", false, false, true, "дверь"), NewInventory("конспекты", false, false, true, "")}),
-		NewFurniture("стул", "на стуле -", []*Inventory{NewInventory("рюкзак", true, true, false, "")}),
-	}
+	myRoom := model.NewRoom("комната", "ты в своей комнате.", "")
+	// myRoom.furnitures = []*model.Furniture{
+	// 	model.NewFurniture("стол", "на столе:", []*model.Inventory{model.NewInventory("ключи", false, false, true, "дверь"), model.NewInventory("конспекты", false, false, true, "")}),
+	// 	model.NewFurniture("стул", "на стуле -", []*model.Inventory{model.NewInventory("рюкзак", true, true, false, "")}),
+	// }
 
-	house := NewHouse("домой", "")
+	house := model.NewHouse("домой", "")
 	house.AddEntryLocation(corridor)
 
-	street := NewStreet("улица", "на улице весна.")
+	street := model.NewStreet("улица", "на улице весна.")
 
 	myRoom.AddAvailableLocation(corridor, nil)
 	corridor.AddAvailableLocation(kitchen, nil)
@@ -35,9 +39,9 @@ func initGame() *Game {
 	street.AddAvailableLocation(house, nil)
 	corridor.AddAvailableLocation(street, nil)
 
-	player := NewPlayer("SuperPlayer")
+	player := model.NewPlayer("SuperPlayer")
 	player.Location = kitchen
-	gameWord = Game{Players: []Player{player}}
+	gameWord = Game{Players: []model.Player{player}}
 
 	return &gameWord
 }
